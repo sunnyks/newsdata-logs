@@ -1,4 +1,4 @@
-#Logs Analysis
+# Logs Analysis
 
 This is a python program that uses psycopg2 to connect to a PostgreSQL database with tables: articles, authors, and logs in order to answer 3 questions.
 

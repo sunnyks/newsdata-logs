@@ -3,7 +3,7 @@
 import psycopg2
 import sys
 
-the_mainstream_media = "dbname=news"
+the_mainstream_media = "news"
 
 
 def find_most_popular_articles(analysisfile):
@@ -47,9 +47,20 @@ def find_error_days(analysisfile):
         analysisfile.write("   {} -- {} pct errors\n".format(day, pct_errors))
 
 
+def connect_to_db(db_name = "news"):
+    "Connect to the PostgreSQL database, returns database connection and cursor"
+    try:
+        conn = psycopg2.connect("dbname={}".format(db_name))
+        c = conn.cursor()
+        return conn, c
+    except psycopg2.Error as e:
+        print "Unable to connect to database"
+        sys.exit(1)
+
+
 def get_query_results(query):
-    conn = psycopg2.connect(the_mainstream_media)
-    c = conn.cursor()
+    "Execute query using cursor from connect_to_db() method"
+    conn, c = connect_to_db(the_mainstream_media)
     c.execute(query)
     result = c.fetchall()
     conn.close()
